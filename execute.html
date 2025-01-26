@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DOSBox Emulator</title>
+
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #111;
+        }
+
+        *::-webkit-scrollbar {
+            width: 18px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: #333;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background-color: #272822;
+            border-radius: 20px;
+            border: 3px solid #333;
+        }
+
+        canvas {
+            border: 2px solid #000;
+            background-color: #000;
+            width: 640px;
+            height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="canvas" class="emscripten" tabindex="0" oncontextmenu="event.preventDefault()"></canvas>
+
+    <script>
+        var Module = {
+            canvas: document.getElementById("canvas"),
+            preRun: [function () {
+                try {
+                    var code = localStorage.getItem('mycode');
+                    Module.FS_createDataFile('/', 'code.asm', code, true, true);
+                    localStorage.removeItem('mycode');
+                } catch (e) {
+                    console.error("Error saving file on Emscripten FS:", e);
+                }
+            }],
+            print: function (text) {
+                console.log(text);
+            },
+            printErr: function (text) {
+                console.error(text);
+            },
+            setStatus: function (text) {
+                console.log("Status: " + text);
+                parent.postMessage({ command: 'status', message: text }, '*');
+            }
+        };
+
+        window.addEventListener('click', function () {
+            parent.postMessage('iframeClicked', '*');
+        });
+    </script>
+
+    <script async src="execute.js"></script>
+    <script async src="dosbox.js"></script>
+
+</body>
+
+</html>

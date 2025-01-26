@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Help Page</title>
+
+    <style>
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+
+
+            background-color: #111;
+            color: #fff;
+            display: flex;
+            width: 90vw;
+            overflow: scroll;
+            font-size: 13px;
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        *::-webkit-scrollbar {
+            width: 18px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: #333;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background-color: #272822;
+            border-radius: 20px;
+            border: 3px solid #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- <p>Welcome to XIDE - an online x86 Assembly IDE (Integrated Development Environment) set up by ASD0x41!<br/><br/>
+    The purpose of this tool is to facilitate students who are studying assembly language. It eliminates the need for downloading and installing tools like assemblers, debuggers and emulators separately. Instead, all you need to do is go to https://xide.nullprime.com/ and your browser itself will become your IDE for assembly language programming.<br/><br/>
+    More specifically, this tool is a combination of the Netwide Assembler (NASM), the Advanced Fullscreen Debugger (AFD), and the DOSBox Emulator (technically, a WASM port of DOSBox Emulator). If you are interested in further details about how exactly XIDE has been implemented, visit the documentation pages using the button on the top-right.<br/><br/>
+    With regard to the usage of this tool, most of it is quite self-explanatory. You can open a .asm file using the Open File button and modify it or start from scratch inside the Editor. At any point, you can also download the contents of the Editor as a .asm file using the Save File button. Once you are done with coding, you can press the Assemble button to reload the Emulator and assemble your code (which will be present as code.asm inside the Emulator) using NASM to an executable file (which will be called prog.asm). You can also press Execute to both assemble as well as execute the assembled program inside the DOSBox Emulator. Alternatively, you can press Debug to assemble your code and then open the assembled program in the Advanced Fullscreen Debugger (AFD).<br/><br/>
+    If you just want to be able to access your code inside the Emulator and enter commands for assembly, debugging, execution etc. yourself, press the Restart button. It will restart the Emulator after which your code will be available as code.asm in its root directory. The Restart button can also be used to restart the Emulator for other purposes, such as to stop the execution of a program that keeps running indefinitely.<br/><br/>
+    Support for multiple files is in the works and will likely be made available in the next update, so stay tuned. Also, if you are interested in this project or have found it useful, please visit its GitHub repository (https://github.com/ASD0x41/xide/) and give it a star. And if you are even more deeply interested, do check out the repository for the WASM port of DOSBox (https://github.com/dreamlayers/em-dosbox) as well, which is a very interesting project and forms the core of this one.<br/><br/>
+    For reporting bugs, providing feedback, requesting features, etc., you may contact me at: contact@nullprime.com (with an appropriate subject line).<br/><br/>
+    Note that there is one known issue: sometimes, upon clicking a button, the Emulator loads but stays on drive Z and does not mount C or perform any action. In that case that, please click that button again. Sorry for the inconvenience.<br/><br/>
+    Regards,<br/>
+    ASD0x41<p/> -->
+
+    <p>
+        Welcome to <span style="color: #ffcc00; font-weight: bold;">XIDE</span> - an online <span style="color: #ffcc00; font-weight: bold;">x86 Assembly IDE</span> (Integrated Development Environment) set up by <span style="color: #66ccff; font-style: italic; font-weight: bold;">ASD0x41</span>!<br/><br/>
+    
+        The purpose of this tool is to facilitate students who are studying assembly language. It eliminates the need for downloading and installing tools like assemblers, debuggers, and emulators separately. Instead, all you need to do is go to 
+        <a href="https://xide.nullprime.com/" style="color: #66ccff; text-decoration: underline;">https://xide.nullprime.com/</a> and your browser itself will become your IDE for assembly language programming.<br/><br/>
+    
+        More specifically, this tool is a combination of the <span style="font-weight: bold; color: #ff6666;">Netwide Assembler (NASM)</span>, the <span style="font-weight: bold; color: #ff6666;">Advanced Fullscreen Debugger (AFD)</span>, and the 
+        <span style="font-weight: bold; color: #ff6666;">DOSBox Emulator</span> (technically, a WASM port of DOSBox Emulator). If you are interested in further details about how exactly <span style="font-weight: bold; color: #ffcc00;">XIDE</span> has been implemented, visit the documentation pages using the button on the top-right.<br/><br/>
+    
+        With regard to the usage of this tool, most of it is quite self-explanatory. You can open a <span style="font-weight: bold; font-style: italic;">.asm</span> file using the <span style="font-weight: bold; color: #66ccff;">Open File</span> button and modify it or start from scratch inside the <span style="color: #66ccff;">Editor</span>. At any point, you can also download the contents of the <span style="font-weight: bold; color: #66ccff;">Editor</span> as a <span style="font-weight: bold; font-style: italic;">.asm</span> file using the <span style="font-weight: bold; color: #66ccff;">Save File</span> button. Once you are done with coding, you can press the <span style="font-weight: bold; color: #66ccff;">Assemble</span> button to reload the <span style="font-weight: bold; color: #66ccff;">Emulator</span> and assemble your code (which will be present as <span style="font-style: italic;">code.asm</span> inside the <span style="font-weight: bold; color: #66ccff;">Emulator</span>) using <span style="font-weight: bold; color: #ff6666;">NASM</span> to an executable file (which will be called <span style="font-style: italic;">prog.asm</span>). You can also press <span style="font-weight: bold; color: #66ccff;">Execute</span> to both assemble as well as execute the assembled program inside the <span style="font-weight: bold; color: #66ccff;">DOSBox Emulator</span>. Alternatively, you can press <span style="font-weight: bold; color: #66ccff;">Debug</span> to assemble your code and then open the assembled program in the <span style="font-weight: bold; color: #ff6666;">Advanced Fullscreen Debugger (AFD)</span>.<br/><br/>
+    
+        If you just want to be able to access your code inside the <span style="font-weight: bold; color: #66ccff;">Emulator</span> and enter commands for assembly, debugging, execution etc. yourself, press the <span style="font-weight: bold; color: #66ccff;">Restart</span> button. It will restart the <span style="font-weight: bold; color: #66ccff;">Emulator</span> after which your code will be available as <span style="font-style: italic;">code.asm</span> in its root directory. The <span style="font-weight: bold; color: #66ccff;">Restart</span> button can also be used to restart the <span style="font-weight: bold; color: #66ccff;">Emulator</span> for other purposes, such as to stop the execution of a program that keeps running indefinitely.<br/><br/>
+    
+        Support for multiple files is in the works and will likely be made available in the next update, so stay tuned. Also, if you are interested in this project or have found it useful, please visit its GitHub repository at 
+        <a href="https://github.com/ASD0x41/xide/" style="color: #66ccff; text-decoration: underline;">https://github.com/ASD0x41/xide/</a> and give it a star. And if you are even more deeply interested, do check out the repository for the WASM port of DOSBox 
+        at <a href="https://github.com/dreamlayers/em-dosbox" style="color: #66ccff; text-decoration: underline;">https://github.com/dreamlayers/em-dosbox</a> as well, which is a very interesting project and forms the core of this one.<br/><br/>
+    
+        For reporting bugs, providing feedback, requesting features, etc., you may contact me at: 
+        <span style="color: #66ccff; font-style: italic;">contact@nullprime.com</span> (with an appropriate subject line).<br/><br/>
+    
+        Note that there is one known issue: sometimes, upon clicking a button, the <span style="font-weight: bold; color: #66ccff;">Emulator</span> loads but stays on drive Z and does not mount C or perform any action. In that case, please click that button again. Sorry for the inconvenience.<br/><br/>
+    
+        Regards,<br/>
+        <span style="font-weight: bold; font-style: italic; color: #66ccff;">ASD0x41</span>
+    </p>
+    
+
+</body>
+
+</html>

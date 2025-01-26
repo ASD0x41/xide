@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>XIDE</title>
+    <link rel="icon" type="image/jpg" href="nullprime-logo.jpg">
+
+    <script src="src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: #111;
+            color: #ddd;
+            font-family: "Century Schoolbook", serif;
+            font-variant: small-caps;
+        }
+
+        .navbar {
+            width: 100%;
+            height: 50px;
+            background-color: #222;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .left-section,
+        .center-section,
+        .right-section {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .left-section {
+            width: 200px;
+            padding-left: 20px;
+        }
+
+        .center-section {
+            flex: 1;
+            text-align: center;
+            font-size: 16px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .right-section {
+            justify-content: right;
+            width: 200px;
+            padding-right: 20px;
+        }
+
+        .left-section a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+        }
+
+        .left-section img {
+            width: 40px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .left-section span {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .button {
+            background-color: #222;
+            color: #fff;
+            padding: 5px 10px;
+            border: 1px solid #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s, color 0.3s;
+
+            font-family: "Century Schoolbook", serif;
+            font-variant: small-caps;
+        }
+
+        .button:hover {
+            background-color: #fff;
+            color: #444;
+        }
+
+        #editor {
+            height: calc(100% - 24px);
+            width: 100%;
+            overflow-y: scroll;
+        }
+
+        *::-webkit-scrollbar {
+            width: 18px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: #333;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background-color: #272822;
+            border-radius: 20px;
+            border: 3px solid #333;
+        }
+
+        .left-container,
+        .right-container {
+            width: 100%;
+            height: calc(100% - 50px);
+        }
+
+        .left-container {
+            width: calc(100% - 644px);
+            float: left;
+        }
+
+        .right-container {
+            width: 644px;
+            float: right;
+        }
+
+        .upper-right,
+        .lower-right {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .upper-right {
+            height: calc(100% - 425px);
+            background-color: #272822;
+        }
+
+        .lower-right {
+            height: 420px;
+        }
+
+        iframe {
+            width: 644px;
+            height: 424px;
+            border: none;
+        }
+
+        .seclabels {
+            background: #333;
+        }
+
+        a {
+            text-decoration: none !important;
+            color: inherit;
+        }
+
+        #manager-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            background-color: #222;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 1px;
+            padding-right: 1px;
+        }
+
+        #manager-list {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 15px;
+            padding-bottom: 10px;
+            font-size: 20px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .menu {
+            width: 12%;
+            font-size: 12px;
+            background-color: #222;
+            font-variant: normal;
+            padding: 3px 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <div class="left-section">
+            <a href="https://www.nullprime.com/">
+                <img src="nullprime-logo.jpg" alt="logo">
+                <span>NULLPRIME</span>
+            </a>
+        </div>
+        <div class="center-section">
+            <h3><a href="https://github.com/ASD0x41/xide/">XIDE</a> (Online x86 Assembly IDE) v0.1.0 by <a
+                    href="https://github.com/ASD0x41/">ASD0x41</a></h3>
+        </div>
+        <div class="right-section">
+            <a href="https://web.nullprime.com/online-assembly-IDE/">
+                <button class="button" id="thebtn">View Documentation</button>
+            </a>
+        </div>
+    </div>
+
+    <div class="left-container">
+        <div class="seclabels">
+            <center><label for="editor">——— <b>Editor</b> ———</label></center>
+        </div>
+        <div id="editor"></div>
+    </div>
+
+    <div class="right-container">
+        <div class="upper-right">
+            <div class="seclabels">
+                <center>——— <b>Manager</b> ———</center>
+            </div>
+            <div id="manager">
+                <div id="manager-bar">
+                    <input id="asm-upload" type="file" accept=".asm" onchange="handleFileUpload(event)"
+                        style="display: none" />
+                    <button class="button menu" id="upload">Open File</button>
+                    <button class="button menu" id="download">Save File</button>
+
+                    <button class="button menu" id="assemble">Assemble</button>
+                    <button class="button menu" id="debug">Debug</button>
+                    <button class="button menu" id="execute">Execute</button>
+
+                    <button class="button menu" id="restart">Restart</button>
+                    <button class="button menu" id="help">Help</button>
+                </div>
+                <div id="manager-list">
+                    <p>
+                        Support for multiple files coming in the next update!
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="lower-right">
+            <div class="seclabels">
+                <center>——— <b id="emultitle">Emulator</b> ———</center>
+            </div>
+            <div id="dosbox-container">
+                <iframe src="dosbox-iframe.html" id="dosbox-iframe"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var editor = ace.edit("editor");
+            editor.setTheme("ace/theme/monokai");
+            editor.session.setMode("ace/mode/assembly_x86");
+            editor.renderer.setPrintMarginColumn(1000);
+            editor.setFontSize(14);
+            editor.session.setUseWrapMode(true);
+            // editor.setValue("; multitasking and dynamic thread registration\n[org 0x0100]\njmp start\n; PCB layout:\n; ax,bx,cx,dx,si,di,bp,sp,ip,cs,ds,ss,es,flags,next,dummy\n; 0, 2, 4, 6, 8,10,12,14,16,18,20,22,24, 26 , 28 , 30\npcb: times 32*16 dw 0 ; space for 32 PCBs\nstack: times 32*256 dw 0 ; space for 32 512 byte stacks\nnextpcb: dw 1 ; index of next free pcb\ncurrent: dw 0 ; index of current pcb\nlineno: dw 0 ; line number for next thread\n\n\n;;;;; COPY LINES 028-071 FROM EXAMPLE 10.1 (printnum) ;;;;;\n; subroutine to print a number on screen\n; takes the row no, column no, and number to be printed as parameters\nprintnum: push bp\nmov bp, sp\npush es\npush ax\npush bx\npush cx\npush dx\npush di\nmov di, 80 ; load di with columns per row\nmov ax, [bp+8] ; load ax with row number\nmul di ; multiply with columns per row\nmov di, ax ; save result in di\nadd di, [bp+6] ; add column number\nshl di, 1 ; turn into byte count\nadd di, 8 ; to end of number location\nmov ax, 0xb800\nmov es, ax ; point es to video base\nmov ax, [bp+4] ; load number in ax\nmov bx, 16 ; use base 16 for division\nmov cx, 4 ; initialize count of digits\nnextdigit: mov dx, 0 ; zero upper half of dividend\ndiv bx ; divide by 10\nadd dl, 0x30 ; convert digit into ascii value\ncmp dl, 0x39 ; is the digit an alphabet\njbe skipalpha ; no, skip addition\nadd dl, 7 ; yes, make in alphabet code\nskipalpha: mov dh, 0x07 ; attach normal attribute\nmov [es:di], dx ; print char on screen\nsub di, 2 ; to previous screen location\nloop nextdigit ; if no divide it again\npop di\npop dx\npop cx\npop bx\npop ax\npop es\npop bp\nret 6\n\n\n\n; mytask subroutine to be run as a thread\n; takes line number as parameter\nmytask: push bp\nmov bp, sp\nsub sp, 2 ; thread local variable\npush ax\npush bx\nmov ax, [bp+4] ; load line number parameter\nmov bx, 70 ; use column number 70\nmov word [bp-2], 0 ; initialize local variable\nprintagain: push ax ; line number\npush bx ; column number\npush word [bp-2] ; number to be printed\ncall printnum ; print the number\ninc word [bp-2] ; increment the local variable\njmp printagain ; infinitely print\npop bx\npop ax\nmov sp, bp\npop bp\nret\n; subroutine to register a new thread\n; takes the segment, offset, of the thread routine and a parameter\n; for the target thread subroutine\ninitpcb: push bp\nmov bp, sp\npush ax\npush bx\npush cx\npush si\nmov bx, [nextpcb] ; read next available pcb index\ncmp bx, 32 ; are all PCBs used\nje exit ; yes, exit\nmov cl, 5\nshl bx, cl ; multiply by 32 for pcb start\nmov ax, [bp+8] ; read segment parameter\nmov [pcb+bx+18], ax ; save in pcb space for cs\nmov ax, [bp+6] ; read offset parameter\nmov [pcb+bx+16], ax ; save in pcb space for ip\nmov [pcb+bx+22], ds ; set stack to our segment\nmov si, [nextpcb] ; read this pcb index\nmov cl, 9\nshl si, cl ; multiply by 512\nadd si, 256*2+stack ; end of stack for this thread\nmov ax, [bp+4] ; read parameter for subroutine\nsub si, 2 ; decrement thread stack pointer\nmov [si], ax ; pushing param on thread stack\nsub si, 2 ; space for return address\nmov [pcb+bx+14], si ; save si in pcb space for sp\nmov word [pcb+bx+26], 0x0200 ; initialize thread flags\nmov ax, [pcb+28] ; read next of 0th thread in ax\nmov [pcb+bx+28], ax ; set as next of new thread\nmov ax, [nextpcb] ; read new thread index\nmov [pcb+28], ax ; set as next of 0th thread\ninc word [nextpcb] ; this pcb is now used\nexit: pop si\npop cx\npop bx\npop ax\npop bp\nret 6\n; timer interrupt service routine\ntimer: push ds\npush bx\npush cs\npop ds ; initialize ds to data segment\nmov bx, [current] ; read index of current in bx\nshl bx, 1\nshl bx, 1\nshl bx, 1\nshl bx, 1\nshl bx, 1 ; multiply by 32 for pcb start\nmov [pcb+bx+0], ax ; save ax in current pcb\nmov [pcb+bx+4], cx ; save cx in current pcb\nmov [pcb+bx+6], dx ; save dx in current pcb\nmov [pcb+bx+8], si ; save si in current pcb\nmov [pcb+bx+10], di ; save di in current pcb\nmov [pcb+bx+12], bp ; save bp in current pcb\nmov [pcb+bx+24], es ; save es in current pcb\npop ax ; read original bx from stack\nmov [pcb+bx+2], ax ; save bx in current pcb\npop ax ; read original ds from stack\nmov [pcb+bx+20], ax ; save ds in current pcb\npop ax ; read original ip from stack\nmov [pcb+bx+16], ax ; save ip in current pcb\npop ax ; read original cs from stack\nmov [pcb+bx+18], ax ; save cs in current pcb\npop ax ; read original flags from stack\nmov [pcb+bx+26], ax ; save cs in current pcb\nmov [pcb+bx+22], ss ; save ss in current pcb\nmov [pcb+bx+14], sp ; save sp in current pcb\nmov bx, [pcb+bx+28] ; read next pcb of this pcb\nmov [current], bx ; update current to new pcb\nmov cl, 5\nshl bx, cl ; multiply by 32 for pcb start\nmov cx, [pcb+bx+4] ; read cx of new process\nmov dx, [pcb+bx+6] ; read dx of new process\nmov si, [pcb+bx+8] ; read si of new process\nmov di, [pcb+bx+10] ; read diof new process\nmov bp, [pcb+bx+12] ; read bp of new process\nmov es, [pcb+bx+24] ; read es of new process\nmov ss, [pcb+bx+22] ; read ss of new process\nmov sp, [pcb+bx+14] ; read sp of new process\npush word [pcb+bx+26] ; push flags of new process\npush word [pcb+bx+18] ; push cs of new process\npush word [pcb+bx+16] ; push ip of new process\npush word [pcb+bx+20] ; push ds of new process\nmov al, 0x20\nout 0x20, al ; send EOI to PIC\nmov ax, [pcb+bx+0] ; read ax of new process\nmov bx, [pcb+bx+2] ; read bx of new process\npop ds ; read ds of new process\niret ; return to new process\nstart: xor ax, ax\nmov es, ax ; point es to IVT base\ncli\nmov word [es:8*4], timer\nmov [es:8*4+2], cs ; hook timer interrupt\nsti\nnextkey: xor ah, ah ; service 0 – get keystroke\nint 0x16 ; bios keyboard services\npush cs ; use current code segment\nmov ax, mytask\npush ax ; use mytask as offset\npush word [lineno] ; thread parameter\ncall initpcb ; register the thread\ninc word [lineno] ; update line number\njmp nextkey ; wait for next keypress", 1);
+            editor.setValue("[org 0x0100]\n\n\tstart:\n\n\t\tMOV		AX, 0xB800\n\t\tMOV		ES, AX\n\n\t\tMOV		WORD [ES:0320], 0x0742\n\n\tMOV		AX, 0x4C00\n\tINT		0x21\n", 1);
+
+            var fontSize = 14;
+
+            document.addEventListener('keydown', function (e) {
+                if (e.ctrlKey && e.key === '+') {
+                    if (fontSize < 36) {
+                        fontSize += 2;
+                        editor.setFontSize(fontSize);
+                    }
+                    e.preventDefault();
+                }
+                if (e.ctrlKey && e.key === '-') {
+                    if (fontSize > 8) {
+                        fontSize -= 2;
+                        editor.setFontSize(fontSize);
+                    }
+                    e.preventDefault();
+                }
+            });
+
+            var code = editor.getValue();
+            localStorage.setItem('mycode', code);
+
+            var iframe = document.getElementById('dosbox-iframe');
+            iframe.src = './assemble.html';
+            iframe.src = './debug.html';
+            iframe.src = './execute.html';
+            iframe.src = './emulate.html';
+            // iframe.src = './help.html';
+            iframe.contentWindow.focus();
+        });
+
+        window.addEventListener('message', function (event) {
+            if (event.data === 'iframeClicked') {
+                var iframe = document.getElementById('dosbox-iframe');
+                iframe.contentWindow.focus();
+            }
+
+            if (event.data.command === 'status') {
+                console.log("Status: " + event.data.message);
+            }
+        });
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];  // Get the first file
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    ace.edit("editor").setValue(e.target.result, 1);
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        document.getElementById('upload').addEventListener('click', function () {
+            document.getElementById('asm-upload').click()
+        });
+
+        document.getElementById('download').addEventListener('click', function () {
+            const editorContent = ace.edit("editor").getValue();
+            const blob = new Blob([editorContent], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'code.asm';
+            link.click();
+        });
+
+        function performAction(action) {
+            var editor = ace.edit("editor");
+            var code = editor.getValue();
+
+            var iframe = document.getElementById('dosbox-iframe');
+            iframe.contentWindow.focus();
+
+            localStorage.removeItem('mycode')
+            localStorage.setItem('mycode', code);
+
+            iframe.src = null;
+            iframe.src = './' + action + '.html';
+
+            document.getElementById("emultitle").textContent = "Emulator";
+        }
+
+        document.getElementById('assemble').addEventListener('click', function () {
+            performAction('assemble');
+        });
+
+        document.getElementById('debug').addEventListener('click', function () {
+            performAction('debug');
+        })
+
+        document.getElementById('execute').addEventListener('click', function () {
+            performAction('execute');
+        })
+
+        document.getElementById('restart').addEventListener('click', function () {
+            performAction('emulate');
+        })
+
+        document.getElementById('help').addEventListener('click', function () {
+            var iframe = document.getElementById('dosbox-iframe');
+
+            iframe.src = null;
+            iframe.src = './help.html';
+
+            document.getElementById("emultitle").textContent = "Help";
+        });
+    </script>
+
+</body>
+
+</html>
