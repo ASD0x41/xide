@@ -50,7 +50,6 @@
                 try {
                     var code = localStorage.getItem('mycode');
                     Module.FS_createDataFile('/', 'code.asm', code, true, true);
-                    localStorage.removeItem('mycode');
                 } catch (e) {
                     console.error("Error saving file on Emscripten FS:", e);
                 }
