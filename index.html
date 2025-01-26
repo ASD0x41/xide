@@ -347,7 +347,12 @@
             localStorage.setItem('mycode', code);
 
             iframe.src = null;
+            iframe.style.display = 'none';
             iframe.src = './' + action + '.html';
+            setTimeout(function () {
+                iframe.style.display = 'block';
+                iframe.src = './' + action + '.html';
+            }, 2000);
 
             document.getElementById("emultitle").textContent = "Emulator";
         }
