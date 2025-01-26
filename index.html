@@ -193,6 +193,41 @@
             font-variant: normal;
             padding: 3px 8px;
         }
+
+        #spinner-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            /* Ensure it's above other content */
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            /* Light gray background */
+            border-top: 4px solid #3498db;
+            /* Blue color for the spinner */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 
@@ -254,7 +289,10 @@
                 <center>——— <b id="emultitle">Emulator</b> ———</center>
             </div>
             <div id="dosbox-container">
-                <iframe src="help.html" id="dosbox-iframe"></iframe>
+                <div id="spinner-overlay">
+                    <div class="spinner"></div>
+                </div>
+                <iframe src="help.html" id="dosbox-iframe" title="dosbox-emulator"></iframe>
             </div>
         </div>
     </div>
@@ -293,11 +331,27 @@
             localStorage.setItem('mycode', code);
 
             var iframe = document.getElementById('dosbox-iframe');
+            const spinnerOverlay = document.getElementById('spinner-overlay');
+
+            spinnerOverlay.style.display = 'flex';
+            iframe.style.display = 'none';
+
             iframe.src = './assemble.html';
-            iframe.src = './debug.html';
-            iframe.src = './execute.html';
-            iframe.src = './emulate.html';
-            // iframe.src = './help.html';
+            setTimeout(function () {
+                iframe.src = './debug.html';
+                setTimeout(function () {
+                    iframe.src = './execute.html';
+                    setTimeout(function () {
+                        iframe.src = './emulate.html';
+                        // setTimeout(function () {
+                        //     iframe.src = './help.html';
+                        // }, 2000);
+                        iframe.style.display = 'block';
+                        spinnerOverlay.style.display = 'none';
+                    }, 2000);
+                }, 2000);
+            }, 2000);
+
             iframe.contentWindow.focus();
         });
 
@@ -347,12 +401,12 @@
             localStorage.setItem('mycode', code);
 
             iframe.src = null;
-            iframe.style.display = 'none';
+            // iframe.style.display = 'none';
             iframe.src = './' + action + '.html';
-            setTimeout(function () {
-                iframe.style.display = 'block';
-                iframe.src = './' + action + '.html';
-            }, 2500);
+            // setTimeout(function () {
+            //     iframe.style.display = 'block';
+            //     iframe.src = './' + action + '.html';
+            // }, 2500);
 
             document.getElementById("emultitle").textContent = "Emulator";
         }
