@@ -229,11 +229,11 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2X4419BQPG"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-      gtag('config', 'G-2X4419BQPG');
+        gtag('config', 'G-2X4419BQPG');
     </script>
 </head>
 
@@ -285,7 +285,9 @@
                 </div>
                 <div id="manager-list">
                     <p>
-                        <center>Support for multiple files coming in the next update!<br/>(please star the <b><a href="https://github.com/ASD0x41/xide/">github repo</a></b> to show your support)</center>
+                        <center>Support for multiple files coming in the next update!<br />(please star the <b><a
+                                    href="https://github.com/ASD0x41/xide/">github repo</a></b> to show your support)
+                        </center>
                     </p>
                 </div>
             </div>
@@ -304,6 +306,26 @@
     </div>
 
     <script>
+        function getBrowser() {
+            var userAgent = navigator.userAgent;
+
+            var browserName;
+            if (userAgent.indexOf("Chrome") > -1 && userAgent.indexOf("Edg") === -1) {
+                browserName = "Chrome";
+            } else if (userAgent.indexOf("Safari") > -1 && userAgent.indexOf("Chrome") === -1) {
+                browserName = "Safari";
+            } else if (userAgent.indexOf("Firefox") > -1) {
+                browserName = "Firefox";
+            } else if (userAgent.indexOf("Edg") > -1) {
+                browserName = "Edge";
+            } else if (userAgent.indexOf("MSIE") > -1 || !!document.documentMode === true) {
+                browserName = "Internet Explorer"; // IE detection
+            } else {
+                browserName = "Unknown";
+            }
+            return browserName;
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             if (window.innerWidth < 1024) {
                 window.location.href = './mobile.html';
@@ -346,6 +368,11 @@
             spinnerOverlay.style.display = 'flex';
             iframe.style.display = 'none';
 
+            if (getBrowser() === "Chrome")
+                timer = 200;
+            else
+                timer = 3000;
+
             iframe.src = './assemble.html';
             setTimeout(function () {
                 iframe.src = './debug.html';
@@ -353,14 +380,11 @@
                     iframe.src = './execute.html';
                     setTimeout(function () {
                         iframe.src = './emulate.html';
-                        // setTimeout(function () {
-                        //     iframe.src = './help.html';
-                        // }, 2000);
                         iframe.style.display = 'block';
                         spinnerOverlay.style.display = 'none';
-                    }, 3000);
-                }, 3000);
-            }, 3000);
+                    }, timer);
+                }, timer);
+            }, timer);
 
             iframe.contentWindow.focus();
         });
